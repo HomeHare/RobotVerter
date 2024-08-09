@@ -1,5 +1,5 @@
 import json
-import threading
+import multiprocessing
 import time
 import serial
 
@@ -57,5 +57,5 @@ def sender():
 
 
 if __name__ == "__main__":
-    threading.Thread(target=sender, daemon=False).start()
+    multiprocessing.Process(target=sender, daemon=True).start()
     main()
