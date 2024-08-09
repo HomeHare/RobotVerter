@@ -70,14 +70,18 @@ if __name__ == '__main__':
     def sender():
         """ функция цикличной отправки пакетов по uart """
         global controlX, controlY
-    	speedA = maxAbsSpeed * (controlY + controlX)    # преобразуем скорость робота,
-    	speedB = maxAbsSpeed * (controlY - controlX)    # в зависимости от положения джойстика
+        # while True:
+        speedA = maxAbsSpeed * (controlY + controlX)    # преобразуем скорость робота,
+        speedB = maxAbsSpeed * (controlY - controlX)    # в зависимости от положения джойстика
 
-    	speedA = max(-maxAbsSpeed, min(speedA, maxAbsSpeed))    # функция аналогичная constrain в arduino
-	speedB = max(-maxAbsSpeed, min(speedB, maxAbsSpeed))    # функция аналогичная constrain в arduino
+        speedA = max(-maxAbsSpeed, min(speedA, maxAbsSpeed))    # функция аналогичная constrain в arduino
+        speedB = max(-maxAbsSpeed, min(speedB, maxAbsSpeed))    # функция аналогичная constrain в arduino
 
-	msg["speedA"], msg["speedB"] = speedScale * speedA, speedScale * speedB     # урезаем скорость и упаковываем
+        msg["speedA"], msg["speedB"] = speedScale * speedA, speedScale * speedB     # урезаем скорость и упаковываем
 
-    	serialPort.write(json.dumps(msg, ensure_ascii=False).encode("utf8"))  # отправляем пакет в виде json файла
-    	#time.sleep(1 / sendFreq)
+        serialPort.write(json.dumps(msg, ensure_ascii=False).encode("utf8"))  # отправляем пакет в виде json файла
+        # time.sleep(1 / sendFreq)
+
+    # threading.Thread(target=sender, daemon=True).start()    # запускаем тред отправки пакетов по uart с демоном
+
     app.run(debug=False, host=args.ip, port=args.port)   # запускаем flask приложение
