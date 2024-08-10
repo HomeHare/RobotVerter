@@ -2,6 +2,8 @@ import json
 import multiprocessing
 import time
 import serial
+import os
+import psutil
 
 import cv2
 
@@ -32,6 +34,7 @@ def main():
                     controlX = 2 * (cx - w / 2) / w
             if iSee:
                 controlY = 0.6
+                print(f"CPU Usage {psutil.cpu_percent()}; CPU Temp: {list(os.popen('cat /sys/class/thermal/thermal_zone0/temp'))[0].replace('\n', ''}; Memory Usage: {psutil.virtual_memory()[2]}")
                 print(f"X: {controlX}, Y: {controlY}")
             else:
                 controlY = 0
